@@ -72,6 +72,7 @@ public class CalcEngine
         else {
             displayValue = leftOperand - displayValue;
         }
+        previousOperator = ' ';
         leftOperand = 0;
     }
 
@@ -81,6 +82,8 @@ public class CalcEngine
     public void clear()
     {
         displayValue = 0;
+        //leftOperand = 0;
+        previousOperator = ' ';
     }
 
     /**
@@ -119,7 +122,7 @@ public class CalcEngine
             leftOperand += displayValue;
         }
         else if(previousOperator == '-') {
-            leftOperand -= displayValue;
+            leftOperand = displayValue;
         }
         else {
             // There was no preceding operator.

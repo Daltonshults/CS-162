@@ -130,15 +130,22 @@ public class SalesItem
      */
     public Comment findMostHelpfulComment()
     {
-        Iterator<Comment> it = comments.iterator();
-        Comment best = it.next();
-        while(it.hasNext()) {
-            Comment current = it.next();
-            if(current.getVoteCount() > best.getVoteCount()) {
-                best = current;
+        if (!comments.isEmpty()) {
+            
+            Iterator<Comment> it = comments.iterator();
+            Comment best = it.next();
+            
+            while(it.hasNext()) {
+                    Comment current = it.next();
+                if(current.getVoteCount() > best.getVoteCount()) {
+                    best = current;
+                    }
             }
+            return best;            
+        } else {
+        
+            return null;
         }
-        return best;
     }
     
     /**
@@ -147,7 +154,7 @@ public class SalesItem
      */
     private boolean ratingInvalid(int rating)
     {
-        return rating < 0 || rating > 5;
+        return !((rating > 0) & (rating <= 5));
     }
     
     /**

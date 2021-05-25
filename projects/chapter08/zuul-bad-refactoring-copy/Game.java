@@ -28,6 +28,8 @@ public class Game
     private Player player;
     
     private Beamer beamer;
+    
+    private RandomRooms roomList;
         
     /**
      * Create the game and initialise its internal map.
@@ -36,6 +38,7 @@ public class Game
     {
         roomStack = new Stack<>();
         player = new Player();
+        roomList = new RandomRooms();
         createRooms();
         parser = new Parser();
         //beamer = new Beamer();
@@ -47,7 +50,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office, cellar, trap;
+        Room outside, theater, pub, lab, office, cellar, trap, transporterRoom;
       
         // create the rooms
         outside = new Room("outside the main entrance of the university");
@@ -57,14 +60,25 @@ public class Game
         office = new Room("in the computing admin office");
         cellar = new Room("in the cellar");
         trap = new Room("you are trapped!");
+        transporterRoom = new TransporterRoom("Transporter Room", roomList);
+        
+        roomList.add(outside);
+        roomList.add(theater);
+        roomList.add(pub);
+        roomList.add(lab);
+        roomList.add(office);
+        roomList.add(cellar);
+        roomList.add(trap);        
         
         outside.setExit("west", pub);
         outside.setExit("east", theater);
         outside.setExit("south", lab);
-        
+        outside.setExit("heaven", transporterRoom);
+        transporterRoom.setExit("out", lab);
         theater.setExit("west", outside);
         
         pub.setExit("east", outside);
+        pub.lockRoom();
         
         lab.setExit("north", outside);
         lab.setExit("west", office);
@@ -78,7 +92,8 @@ public class Game
         cellar.setExit("down", trap);
         beamer = new Beamer();
         cellar.addDroppedItem(beamer);
-
+        
+                
         player.changeRoom(outside);  // start game outside
     }
 
@@ -133,7 +148,7 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            
+                
                 if(player.getEnergy() > 0) {
                     roomStack.push(player.currentRoom());
                     goRoom(command); 
@@ -214,7 +229,8 @@ public class Game
         
         if (nextRoom == null) {
             System.out.println("There is no door!");    
-        } else {
+            
+        } else  {
             player.changeRoom(nextRoom);
             System.out.println(player.currentRoom().getLongDescription());
             System.out.println(player.playerGetDescription());
@@ -354,4 +370,5 @@ public class Game
             System.out.println("Your beamer is not charged!");    
         }
     }
+
 }

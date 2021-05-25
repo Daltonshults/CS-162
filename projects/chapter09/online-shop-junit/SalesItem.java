@@ -44,6 +44,10 @@ public class SalesItem
         return price;
     }
     
+    public ArrayList<Comment> getComments() {
+        return comments;    
+    }
+    
     /**
      * Return the number of customer comments for this item.
      */
@@ -115,10 +119,8 @@ public class SalesItem
         System.out.println("Price: " + priceString(price));
         System.out.println();
         System.out.println("Customer comments:");
-        for(Comment comment : comments) {
-            System.out.println("-------------------------------------------");
-            System.out.println(comment.getFullDetails());
-        }
+        comments.stream()
+            .forEach(c -> System.out.println("-------------------------------------------\n"+ c.getFullDetails()));
         System.out.println();
         System.out.println("===========================================");
     }
@@ -141,13 +143,19 @@ public class SalesItem
         return best;
     }
     
+    // public Comment findMostHelpfulComment2() {
+     // comments.stream()
+         // .filter(c -> c.getVoteCount() > b);
+     // return null;
+    // }
+    
     /**
      * Check whether the given rating is invalid. Return true if it is invalid.
      * Valid ratings are in the range [1..5].
      */
     private boolean ratingInvalid(int rating)
     {
-        return rating < 0 || rating > 5;
+        return !((rating > 0) & (rating <= 5));
     }
     
     /**
@@ -155,7 +163,7 @@ public class SalesItem
      * 
      * @return The comment if it exists; null if it doesn't.
      */
-    private Comment findCommentByAuthor(String author)
+    public Comment findCommentByAuthor2(String author)
     {
         for(Comment comment : comments) {
             if(comment.getAuthor().equals(author)) {
@@ -163,6 +171,13 @@ public class SalesItem
             }
         }
         return null;
+    }
+    
+    public Comment findCommentByAuthor(String author) {
+        return comments.stream()
+            .filter(c -> c.getAuthor().equals(author))
+            .findFirst()
+            .orElse(null);
     }
     
     /**

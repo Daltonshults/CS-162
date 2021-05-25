@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class LabClass
 {
-    private String instructor;
+    private Instructor instructor;
     private String room;
     private String timeAndDay;
     private ArrayList<Student> students;
@@ -21,7 +21,7 @@ public class LabClass
      */
     public LabClass(int maxNumberOfStudents)
     {
-        instructor = "unknown";
+        instructor = null;
         room = "unknown";
         timeAndDay = "unknown";
         students = new ArrayList<Student>();
@@ -69,7 +69,7 @@ public class LabClass
     /**
      * Set the name of the instructor for this LabClass.
      */
-    public void setInstructor(String instructorName)
+    public void setInstructor(Instructor instructorName)
     {
         instructor = instructorName;
     }

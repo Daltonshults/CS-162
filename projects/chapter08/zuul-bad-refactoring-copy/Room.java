@@ -24,6 +24,7 @@ public class Room
     private HashMap<String, Room> exits;        // stores exits of this room.
     private ArrayList<Item> itemList;
     private Random rand;
+    private boolean isLocked;
 
     /**
      * Create a room described "description". Initially, it has
@@ -37,12 +38,6 @@ public class Room
         this.description = description;
         exits = new HashMap<>();
         itemList = new ArrayList<>(addItems());
-        // int x = rand.nextInt(2) + 1;
-        
-        // for (int i = 0; i < x; i += 1) {
-             // addItem();    
-        // }
-
     }
     
     private ArrayList<Item> addItems() {
@@ -167,5 +162,22 @@ public class Room
     public void removeItem(Item removeItem) {
         itemList.remove(removeItem);    
     }
+    
+    public boolean getIsLocked() {
+        return isLocked;    
+    }
+    
+    public void setIsLocked(boolean islocked) {
+        this.isLocked = isLocked;    
+    }
+    
+    public void lockRoom() {
+        isLocked = true;    
+    }
+    
+    public void unlockRoom() {
+        isLocked = false;    
+    }
+    
 }
 

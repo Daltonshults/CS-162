@@ -61,6 +61,10 @@ public class Comment
         return rating;
     }
     
+    public String shortDescription() {
+        return text;    
+    }
+    
     /**
      * Return the vote count (balance of up and down-votes).
      */

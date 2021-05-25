@@ -40,6 +40,6 @@ public class Pallet
      */
     public double getHeight()
     {
-        return (aBrick.getHeight() % height) + BASE_HEIGHT;
+        return (aBrick.getHeight() * height) + BASE_HEIGHT;
     }
 }

@@ -7,12 +7,20 @@
 public class CalcEngine
 {
     // Put instance variables here.
+    private int displayValue;
+    
+    private char previousOperator;
+    
+    private int leftOperand;
 
     /**
      * Create a CalcEngine.
      */
     public CalcEngine()
     {
+        displayValue = 0;
+        previousOperator = ' ';
+        leftOperand = 0;
     }
 
     /**
@@ -21,7 +29,7 @@ public class CalcEngine
      */
     public int getDisplayValue()
     {
-        return 0;
+        return displayValue;
     }
 
     /**
@@ -32,6 +40,7 @@ public class CalcEngine
      */
     public void numberPressed(int number)
     {
+        displayValue = number;
     }
 
     /**
@@ -39,6 +48,9 @@ public class CalcEngine
      */
     public void plus()
     {
+        applyPreviousOperator();
+        previousOperator = '+';
+        displayValue = 0;
     }
 
     /**
@@ -46,6 +58,9 @@ public class CalcEngine
      */
     public void minus()
     {
+        applyPreviousOperator();
+        previousOperator = '-';
+        displayValue = 0;
     }
 
     /**
@@ -53,6 +68,14 @@ public class CalcEngine
      */
     public void equals()
     {
+        if(previousOperator == '+') {
+            displayValue = leftOperand + displayValue;
+        }
+        else {
+            displayValue = leftOperand - displayValue;
+        }
+        previousOperator = ' ';
+        leftOperand = 0;   
     }
 
     /**
@@ -60,6 +83,9 @@ public class CalcEngine
      */
     public void clear()
     {
+        displayValue = 0;
+        leftOperand = 0;
+        previousOperator = ' ';
     }
 
     /**
@@ -67,7 +93,7 @@ public class CalcEngine
      */
     public String getTitle()
     {
-        return "";
+        return "Calculator Engine";
     }
 
     /**
@@ -76,7 +102,7 @@ public class CalcEngine
      */
     public String getAuthor()
     {
-        return "";
+        return "Dalton";
     }
 
     /**
@@ -85,6 +111,16 @@ public class CalcEngine
      */
     public String getVersion()
     {
-        return "";
+        return "1";
+    }
+    
+    private void applyPreviousOperator() {
+        if(previousOperator == '+') {
+            leftOperand += displayValue;    
+        } else if (previousOperator == '-') {
+            leftOperand -= displayValue;    
+        } else {
+            leftOperand = displayValue;    
+        }
     }
 }

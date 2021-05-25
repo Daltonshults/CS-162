@@ -18,9 +18,11 @@ public class CalcEngine
      */
     public CalcEngine()
     {
+        reportState("Beginning of constructor");
         displayValue = 0;
         previousOperator = ' ';
         leftOperand = 0;
+        reportState(" End of constructor");
     }
 
     /**
@@ -29,6 +31,7 @@ public class CalcEngine
      */
     public int getDisplayValue()
     {
+        reportState("getDisplay");
         return displayValue;
     }
 
@@ -60,9 +63,11 @@ public class CalcEngine
      */
     public void minus()
     {
+        reportState("start of minus");
         applyPreviousOperator();
         previousOperator = '-';
         displayValue = 0;
+        reportState("end of minus");
     }
     
     /**
@@ -96,6 +101,7 @@ public class CalcEngine
      */
     public String getTitle()
     {
+        reportState("getTitle");
         return "Super Calculator";
     }
 
@@ -104,6 +110,7 @@ public class CalcEngine
      */
     public String getAuthor()
     {
+        reportState("getAuthor");
         return "Hacker T. Largebrain";
     }
 
@@ -112,6 +119,7 @@ public class CalcEngine
      */
     public String getVersion()
     {
+        reportState("getVersion");
         return "version 0.2";
     }
 
@@ -140,7 +148,7 @@ public class CalcEngine
             leftOperand += displayValue;
         }
         else if(previousOperator == '-') {
-            leftOperand -= displayValue;
+            leftOperand = displayValue;
         }
         else {
             // There was no preceding operator.

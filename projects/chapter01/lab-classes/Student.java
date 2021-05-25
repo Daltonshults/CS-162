@@ -6,12 +6,12 @@
  * @author Michael Kölling and David Barnes
  * @version 2016.02.29
  */
-public class Student
+public class Student extends Person
 {
     // the student's full name
-    private String name;
+    //private String name;
     // the student ID
-    private String id;
+    //private String id;
     // the amount of credits for study taken so far
     private int credits;
 
@@ -20,17 +20,7 @@ public class Student
      */
     public Student(String fullName, String studentID)
     {
-        if(fullName.length() < 4){
-            System.out.println("All methods cannot be accesssed if the name you have input");
-            System.out.println(" is less than four");
-        }
-
-        if(studentID.length() < 3){
-            System.out.println("All methods cannot be accesssed if the id you have input");
-            System.out.println(" is less than three");
-        }
-        name = fullName;
-        id = studentID;
+        super(fullName, studentID);
         credits = 0;
     }
 
@@ -39,23 +29,17 @@ public class Student
      */
     public String getName()
     {
-        return name;
+        return super.getName();
     }
 
-    /**
-     * Set a new name for this student.
-     */
-    public void changeName(String replacementName)
-    {
-        name = replacementName;
-    }
+
 
     /**
      * Return the student ID of this student.
      */
     public String getStudentID()
     {
-        return id;
+        return getID();
     }
 
     /**
@@ -75,33 +59,11 @@ public class Student
     }
 
     /**
-     * Return the login name of this student. The login name is a combination
-     * of the first four characters of the student's name and the first three
-     * characters of the student's ID number.
-     */
-    public String getLoginName()
-    {
-        int logInNameLength = 4;
-        int loginIdLength = 3;
-        int nameLength = name.length();
-        int idLength = id.length();
-
-        if(nameLength <= 4){
-            logInNameLength = nameLength;
-        }
-        if(idLength <= 3){
-            idLength = idLength;
-        }
-
-        return name.substring(0,logInNameLength) + id.substring(0,idLength);
-    }
-
-    /**
      * Print the student's name and ID number to the output terminal.
      */
     public void print()
     {
-        System.out.println(name + ", student ID: " + id +
+        System.out.println(getName() + ", student ID: " + getID() +
             ", credits: " + credits);
     }
 }

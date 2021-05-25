@@ -6,7 +6,7 @@ import java.util.Random;
  * @author Dalton
  * @version .01
  */
-public abstract class Item
+public class Item
 {
     // weight of the item
     protected int weight;
