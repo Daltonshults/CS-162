@@ -6,6 +6,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+
 /**
  * A class to maintain an arbitrary number of contact details.
  * Details are indexed by both name and phone number.
@@ -82,13 +83,17 @@ public class AddressBook
     {
         // Build a list of the matches.
         List<ContactDetails> matches = new LinkedList<>();
+
         // Find keys that are equal-to or greater-than the prefix.
         SortedMap<String, ContactDetails> tail = book.tailMap(keyPrefix);
         Iterator<String> it = tail.keySet().iterator();
+        
         // Stop when we find a mismatch.
         boolean endOfSearch = false;
+        
         while(!endOfSearch && it.hasNext()) {
             String key = it.next();
+            
             if(key.startsWith(keyPrefix)) {
                 matches.add(book.get(key));
             }
@@ -97,8 +102,11 @@ public class AddressBook
                 endOfSearch = true;
             }
         }
+        
         ContactDetails[] results = new ContactDetails[matches.size()];
+        
         matches.toArray(results);
+        
         return results;
     }
 
@@ -119,9 +127,12 @@ public class AddressBook
     public void removeDetails(String key)
     {
         ContactDetails details = book.get(key);
-        book.remove(details.getName());
-        book.remove(details.getPhone());
-        numberOfEntries--;
+        if(details != null) {
+            book.remove(details.getName());
+            book.remove(details.getPhone());
+            numberOfEntries--;
+            
+        } 
     }
 
     /**

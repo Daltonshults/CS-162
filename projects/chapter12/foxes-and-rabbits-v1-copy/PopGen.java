@@ -15,6 +15,7 @@ public class PopGen
     private  final double FOX_CREATION_PROBABILITY = 0.02;
     private  final double RABBIT_CREATION_PROBABILITY = 0.08;
     private final double SQUIRREL_CREATION_PROBABILITY = 0.09;
+    private final double HUNTER_CREATION_PROBABILITY = .08;
     
     
     private ArrayList<Actor> animals;
@@ -40,7 +41,7 @@ public class PopGen
                     Location location = new Location(row, col);
                     Fox fox = new Fox(true, field, location);
                     animals.add(fox);
-                } else if(rand.nextDouble() <= SQUIRREL_CREATION_PROBABILITY) {
+                }else if(rand.nextDouble() <= SQUIRREL_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Squirrel squirrel = new Squirrel(true, field, location);
                     animals.add(squirrel);
@@ -50,6 +51,11 @@ public class PopGen
                     Rabbit rabbit = new Rabbit(true, field, location);
                     animals.add(rabbit);
                 }
+                // else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                    // Location location = new Location(row, col);
+                    // Hunter hunter = new Hunter(field, location);
+                    // animals.add(hunter);
+                // }
                 // else leave the location empty.
             }
         }

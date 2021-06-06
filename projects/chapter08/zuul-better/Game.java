@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -173,7 +176,26 @@ public class Game
             return false;
         }
         else {
+            createFile("newFile.txt", parser.getAl().size());
             return true;  // signal that we want to quit
         }
+    }
+    
+    public boolean createFile(String filename, int numEntries) {
+        boolean success = false;
+        //LogEntry[] entries = new LogEntry[numEntries];
+        
+        try(FileWriter writer = new FileWriter(filename)) {
+            
+            for(String s: parser.getAl()) {
+                writer.write(s + "\n \n");
+            }
+            writer.close();
+            success = true;
+        } catch(IOException e) {
+            System.err.println("There was a problem writing to: " + filename);
+        }
+        
+        return success;
     }
 }

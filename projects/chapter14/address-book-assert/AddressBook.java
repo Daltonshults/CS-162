@@ -29,9 +29,9 @@ public class AddressBook
     public AddressBook()
     {
         book = new TreeMap<>();
-        numberOfEntries = 0;
+        numberOfEntries = book.size();
     }
-    
+
     /**
      * Look up a name or phone number and return the
      * corresponding contact details.
@@ -57,27 +57,33 @@ public class AddressBook
      * Add a new set of details to the address book.
      * @param details The details to associate with the person.
      */
-    public void addDetails(ContactDetails details)
+    public void addDetails(ContactDetails details) throws NoMatchingDetailsException
     {
         if(details == null) {
             throw new IllegalArgumentException("Null details passed to addDetails.");
         }
+
+        if(keyInUse(details.getName())) {
+            throw new NoMatchingDetailsException("name already taken beeches");
+        }
         book.put(details.getName(), details);
         book.put(details.getPhone(), details);
+        book.put(details.getAddress(), details);
         numberOfEntries++;
         assert consistentSize() : "Inconsistent book size in addDetails";
     }
-    
+
     /**
      * Change the details previously stored under the given key.
      * @param oldKey One of the keys used to store the details.
-                     This should be a key that is currently in use.
+    This should be a key that is currently in use.
      * @param details The replacement details. Must not be null.
      * @throws IllegalArgumentException If either argument is null.
      */
     public void changeDetails(String oldKey,
-                              ContactDetails details)
+    ContactDetails details) throws NoMatchingDetailsException
     {
+        int x = numberOfEntries;
         if(details == null) {
             throw new IllegalArgumentException("Null details passed to changeDetails.");
         }
@@ -88,8 +94,10 @@ public class AddressBook
             removeDetails(oldKey);
             addDetails(details);
         }
+
+        assert x == numberOfEntries;
     }
-    
+
     /**
      * Search for all details stored under a key that starts with
      * the given prefix.
@@ -147,8 +155,10 @@ public class AddressBook
             ContactDetails details = book.get(key);
             book.remove(details.getName());
             book.remove(details.getPhone());
+            book.remove(details.getAddress());
             numberOfEntries--;
         }
+        System.out.println(book.size());
         assert !keyInUse(key);
         assert consistentSize() : "Inconsistent book size in removeDetails";
     }
@@ -170,7 +180,7 @@ public class AddressBook
         }
         return allEntries.toString();
     }
-    
+
     /**
      * Check that the numberOfEntries field is consistent with
      * the number of entries actually stored in the address book.

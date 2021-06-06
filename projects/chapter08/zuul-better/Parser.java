@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class is part of the "World of Zuul" application. 
@@ -19,8 +21,8 @@ import java.util.Scanner;
 public class Parser 
 {
     private CommandWords commands;  // holds all valid command words
-    private Scanner reader;         // source of command input
-
+    private Scanner reader; // source of command input
+    private List<String> al;
     /**
      * Create a parser to read from the terminal window.
      */
@@ -28,6 +30,7 @@ public class Parser
     {
         commands = new CommandWords();
         reader = new Scanner(System.in);
+        al = new ArrayList<>();
     }
 
     /**
@@ -52,7 +55,13 @@ public class Parser
                 // note: we just ignore the rest of the input line.
             }
         }
-
+        if(word1 != null && word2 != null) {
+            al.add(word1 + " " + word2);
+            //al.add(word2);
+        }
+        if (word1 != null && word2 == null) {
+            al.add(word1);
+        }
         // Now check whether this word is known. If so, create a command
         // with it. If not, create a "null" command (for unknown command).
         if(commands.isCommand(word1)) {
@@ -69,5 +78,9 @@ public class Parser
     public void showCommands()
     {
         commands.showAll();
+    }
+    
+    public List<String> getAl() {
+        return al;
     }
 }

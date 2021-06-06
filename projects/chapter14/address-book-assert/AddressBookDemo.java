@@ -50,7 +50,14 @@ public class AddressBookDemo
     {
         book = new AddressBook();
         for(ContactDetails details : sampleDetails) {
-            book.addDetails(details);
+            try
+            {
+                book.addDetails(details);
+            }
+            catch (NoMatchingDetailsException nmde)
+            {
+                nmde.printStackTrace();
+            }
         }
     }
     
@@ -60,7 +67,14 @@ public class AddressBookDemo
     public void testAddition()
     {
         setup();
-        book.addDetails(furtherContact);
+        try
+        {
+            book.addDetails(furtherContact);
+        }
+        catch (NoMatchingDetailsException nmde)
+        {
+            nmde.printStackTrace();
+        }
     }
     
     /**
@@ -80,8 +94,15 @@ public class AddressBookDemo
         setup();
         ContactDetails revisedDetails = createRevisedDetails();
             
-        book.changeDetails(existingContact.getName(),
+        try
+        {
+            book.changeDetails(existingContact.getName(),
                            revisedDetails);
+        }
+        catch (NoMatchingDetailsException nmde)
+        {
+            nmde.printStackTrace();
+        }
     }
     
     /**
@@ -92,7 +113,14 @@ public class AddressBookDemo
     public void testForAdditionError()
     {
         setup();
-        book.addDetails(createRevisedDetails());
+        try
+        {
+            book.addDetails(createRevisedDetails());
+        }
+        catch (NoMatchingDetailsException nmde)
+        {
+            nmde.printStackTrace();
+        }
     }
 
     /**

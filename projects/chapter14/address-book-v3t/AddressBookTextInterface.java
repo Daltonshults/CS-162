@@ -57,6 +57,8 @@ public class AddressBookTextInterface
             }
             else if(command.equals("help")){
                 help();
+            } else if (command.equals("change")) {
+                change();  
             }
             else{
                 // Do nothing.
@@ -77,7 +79,17 @@ public class AddressBookTextInterface
         String phone = parser.readLine();
         System.out.print("Address: ");
         String address = parser.readLine();
-        book.addDetails(new ContactDetails(name, phone, address));
+        try
+        {
+            book.addDetails(new ContactDetails(name, phone, address));
+        }
+        catch (DuplicateKeyException dke)
+        {
+            dke.printStackTrace();
+            
+        } catch (IllegalArgumentException iae) {
+            iae.printStackTrace();
+        }
     }
     
     /**
@@ -98,7 +110,14 @@ public class AddressBookTextInterface
     {
         System.out.println("Type the key of the entry.");
         String key = parser.readLine();
-        book.removeDetails(key);
+        try
+        {
+            book.removeDetails(key);
+        }
+        catch (NoMatchingDetailsException nmde)
+        {
+            nmde.printStackTrace();
+        }
     }
     
     /**
@@ -109,9 +128,43 @@ public class AddressBookTextInterface
         System.out.println("Type a prefix of the key to be found.");
         String prefix = parser.readLine();
         ContactDetails[] results = book.search(prefix);
+        if(results.length == 0) {
+            System.out.println("Not found.");
+        }
+        
         for(int i = 0; i < results.length; i++){
             System.out.println(results[i]);
             System.out.println("=====");
+        }
+    }
+    
+    /**
+     * Allows the user to change the details of people already on the address book. 
+     */
+    private void change() {
+        System.out.println("Who are we changing? ");
+        String changeWho = parser.readLine();
+        
+        System.out.println("Change name to? ");
+        String nameChange = parser.readLine();
+        
+        System.out.println("Change phone number to? ");
+        String phoneChange = parser.readLine();
+        
+        System.out.println("Change address to?");
+        String addressChange = parser.readLine();
+        
+        ContactDetails changes = new ContactDetails(nameChange, phoneChange, addressChange);
+        
+        //ContactDetails cd = book.getDetails(changeWho);
+        //book.changeDetails(change, cd);
+        try
+        {
+            book.changeDetails(changeWho, changes);
+        }
+        catch (NoMatchingDetailsException nmde)
+        {
+            nmde.printStackTrace();
         }
     }
     
@@ -130,4 +183,5 @@ public class AddressBookTextInterface
     {
         System.out.println(book.listDetails());
     }
+
 }

@@ -26,6 +26,7 @@ public class Responder
     // The name of the file containing the default responses.
     private static final String FILE_OF_DEFAULT_RESPONSES = "default.txt";
     private Random randomGenerator;
+    private static final String FILE_OF_RESPONSE_MAP = "defaultResponse.txt";
 
     /**
      * Construct a Responder
@@ -60,12 +61,59 @@ public class Responder
         // we cannot think of anything else to say...)
         return pickDefaultResponse();
     }
-
     /**
      * Enter all the known keywords and their associated responses
      * into our response map.
      */
     private void fillResponseMap()
+    {
+        Charset charset = Charset.forName("US-ASCII");
+        Path path = Paths.get(FILE_OF_RESPONSE_MAP);
+        
+        try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
+            String response = reader.readLine();
+            String tmp = "";
+            String tmp2 = "";
+            while(response != null) {
+                //String tmp = "";
+                
+                if (! response.trim().isEmpty()) {
+                    tmp = response;
+                    response = reader.readLine();
+                    tmp2 = response;
+                    if(tmp2 != null && tmp != null) {
+                        responseMap.put(tmp.trim(), tmp2.trim());
+                    }//defaultResponses.add(response);
+                }
+                
+                // if (response.isEmpty() && !tmp.isEmpty()) {
+                    // //defaultResponses.add(tmp);
+                    // //tmp = "";
+                // }
+                
+                response = reader.readLine();
+            }
+            if (! tmp.isEmpty()) {
+                defaultResponses.add(tmp);
+            }
+        }
+        catch(FileNotFoundException e) {
+            System.err.println("Unable to open " + FILE_OF_DEFAULT_RESPONSES);
+        }
+        catch(IOException e) {
+            System.err.println("A problem was encountered reading " +
+                               FILE_OF_DEFAULT_RESPONSES);
+        }
+        // Make sure we have at least one response.
+        if(defaultResponses.size() == 0) {
+            defaultResponses.add("Could you elaborate on that?");
+        }
+    }
+    /**
+     * Enter all the known keywords and their associated responses
+     * into our response map.
+     */
+    private void fillResponseMap2()
     {
         responseMap.put("crash", 
                         "Well, it never crashes on our system. It must have something\n" +
@@ -125,9 +173,24 @@ public class Responder
         Path path = Paths.get(FILE_OF_DEFAULT_RESPONSES);
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String response = reader.readLine();
+            String tmp = "";
             while(response != null) {
-                defaultResponses.add(response);
+                //String tmp = "";
+                
+                if (! response.isEmpty()) {
+                    tmp = tmp + " " + response;
+                    //defaultResponses.add(response);
+                }
+                
+                if (response.isEmpty() && !tmp.isEmpty()) {
+                    defaultResponses.add(tmp);
+                    tmp = "";
+                }
+                
                 response = reader.readLine();
+            }
+            if (! tmp.isEmpty()) {
+                defaultResponses.add(tmp);
             }
         }
         catch(FileNotFoundException e) {

@@ -1,4 +1,9 @@
 import java.util.ArrayList;
+import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
 
 /**
  * The NewsFeed class stores news posts for the news feed in a
@@ -13,7 +18,7 @@ import java.util.ArrayList;
  * @author Michael Kölling and David J. Barnes
  * @version 0.3
  */
-public class NewsFeed
+public class NewsFeed implements Serializable
 {
     private ArrayList<Post> posts;
 
@@ -45,5 +50,15 @@ public class NewsFeed
             post.display();
             System.out.println();   // empty line between posts
         }
+    }
+    
+    public void saveToFile(String destinationFile)
+        throws java.io.FileNotFoundException, java.io.IOException {
+        Path destination = Paths.get(destinationFile).toAbsolutePath();
+        ObjectOutputStream os = new ObjectOutputStream(
+                                        new FileOutputStream(
+                                            destination.toString()));
+        os.writeObject(book);
+        os.close();
     }
 }

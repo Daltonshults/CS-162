@@ -146,7 +146,27 @@ public class LnkdListTest
         list.add(1, 1854);
         assertEquals(1854, list.get(1));
     }
+
+    @Test
+    public void testingContains()
+    {
+        assertEquals(true, list.contains(454));
+    }
+    
+    @Test
+    public void negTestContains()
+    {
+        assertEquals(false, list.contains(0));
+    }
+
+    @Test
+    public void testRemove()
+    {
+        assertEquals(123, list.remove(1));
+        assertEquals(false, list.contains(123));
+    }
 }
+
 
 
 
